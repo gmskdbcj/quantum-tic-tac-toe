@@ -7,6 +7,8 @@ from handlers import basic_router
 
 import json
 
+from pathlib import Path
+
 with open('private_config.json', 'r') as file:
     token: str = json.load(file)["BOT_TOKEN"]
 
@@ -25,4 +27,7 @@ async def main():
 
 
 if __name__ == "__main__":
+    db_path = Path("data_bases/bot_db.db")
+    if db_path.is_file():
+        db_path.unlink()
     asyncio.run(main())
