@@ -1,0 +1,8 @@
+game_canceled="Game canceled."
+opponent_turn="Wait for your opponent's turn..."
+select_lang = "Select language:"
+start_game = "Start game?"
+your_turn = "Your turn!"
+select_gate = "Select gate:"
+select_axis = "Select axis:"
+the_end = "The end."

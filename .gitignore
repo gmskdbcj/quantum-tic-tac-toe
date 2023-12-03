@@ -5,3 +5,4 @@
 
 private_config.json
 *.db
+test.py

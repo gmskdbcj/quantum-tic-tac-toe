@@ -24,6 +24,11 @@ class Room:
             await self.db.execute("INSERT INTO Rooms (player_1, player_2) VALUES (?, ?)", (player_id, 0))
             await self.db.commit()
 
+    async def delete(self, player_id):
+        async with self.lock:
+            await self.db.execute("DELETE FROM Rooms WHERE player_1 = ?", (player_id,))
+            await self.db.commit()
+
     async def join(self, my_id, id):
         async with self.lock:
             await self.db.execute("UPDATE Rooms SET player_2 = ? WHERE player_1 = ?", (my_id, id))

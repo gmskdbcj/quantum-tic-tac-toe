@@ -10,16 +10,25 @@ async def short_gate(string: str):
     return string
 
 """
-For example
+For example:
+
 graphic("Z", [1, 0, 2], [["H", "X"], ["H"], ["X"]])
 return this:
 1: ──H──X─┤     
 0: ──H────┤     
 2: ──X────┤  <Z>
+
+graphic("Z", [1, 0, 1], [["H", "X"], ["H"], ["X"]], [0, 0, 1])
+return this:
+1: ──H──X─┤0
+0: ──H────┤0
+1: ──X────┤1  <Z>
 """
-async def graphic(axis, start_conditions, gates):
-    start_conditions = [str(i) for i in start_conditions]
+async def graphic(axis, basis_state, gates, measurments=None):
+    basis_state = [str(i) for i in basis_state]
     gates = [[await short_gate(j) for j in i] for i in gates]
+    if measurments != None:
+        measurments = [str(i) for i in measurments]
 
     empty_symbol = "──"
     end_symbol = "─┤"
@@ -35,11 +44,14 @@ async def graphic(axis, start_conditions, gates):
         while len(gates[i]) < length:
             gates[i].append(empty_gate)
 
-    for i in range(len(start_conditions)):
-        text += f"{start_conditions[i]}: "
+    for i in range(len(basis_state)):
+        text += f"{basis_state[i]}: "
         for j in range(len(gates[i])):
             text += f"{empty_symbol}{gates[i][j]}"
-        text += f"{end_symbol}\n"
+        text += end_symbol
+        if measurments != None:
+            text += measurments[i]
+        text += f"\n"
     text = text[:-1]
     text += f"  <{axis}>"
     return text

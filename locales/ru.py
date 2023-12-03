@@ -1,0 +1,8 @@
+game_canceled="Игра отменена."
+opponent_turn="Ожидайте ход оппонента..."
+select_lang = "Выберите язык:"
+start_game = "Начать игру?"
+your_turn = "Ваш ход!"
+select_gate = "Выберите гейт:"
+select_axis = "Выберите ось:"
+the_end = "Конец игры."
