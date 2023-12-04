@@ -1,7 +1,12 @@
 import pennylane as qml
 
+from scripts.names_string_convertation import short_gate
 
-async def quant(axis: str, basis_state, gates):
+
+async def quant(axis: str, basis_state, gates, last_result=None):
+    for i in range(3):
+        gates[i] = [await short_gate(j) for j in gates[i]]
+
     dev = qml.device("default.qubit", wires=3, )
 
     @qml.qnode(dev)

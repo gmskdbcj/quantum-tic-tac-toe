@@ -18,3 +18,7 @@ class WaitCallbackFactory(CallbackData, prefix="wait"):
 
 class AxisCallbackFactory(CallbackData, prefix="axis"):
     action: str
+
+class GateToRowCallbackFactory(CallbackData, prefix="axis"):
+    action: str
+    row: int

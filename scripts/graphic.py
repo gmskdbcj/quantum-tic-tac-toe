@@ -1,13 +1,4 @@
-async def short_gate(string: str):
-    if string == "Hadamard":
-        string = "H"
-    if string == "Pauli_X":
-        string = "X"
-    if string == "Pauli_Y":
-        string = "Y"
-    if string == "Pauli_Z":
-        string = "Z"
-    return string
+from scripts.names_string_convertation import short_gate
 
 """
 For example:
@@ -16,18 +7,18 @@ graphic("Z", [1, 0, 2], [["H", "X"], ["H"], ["X"]])
 return this:
 1: ──H──X─┤     
 0: ──H────┤     
-2: ──X────┤  <Z>
+2: ──X────┤  _Z_
 
 graphic("Z", [1, 0, 1], [["H", "X"], ["H"], ["X"]], [0, 0, 1])
 return this:
 1: ──H──X─┤0
 0: ──H────┤0
-1: ──X────┤1  <Z>
+1: ──X────┤1  _Z_
 """
 async def graphic(axis, basis_state, gates, measurments=None):
     basis_state = [str(i) for i in basis_state]
     gates = [[await short_gate(j) for j in i] for i in gates]
-    if measurments != None:
+    if measurments != None and measurments != []:
         measurments = [str(i) for i in measurments]
 
     empty_symbol = "──"
@@ -47,11 +38,11 @@ async def graphic(axis, basis_state, gates, measurments=None):
     for i in range(len(basis_state)):
         text += f"{basis_state[i]}: "
         for j in range(len(gates[i])):
-            text += f"{empty_symbol}{gates[i][j]}"
+            text += f"{empty_symbol}{gates[i][j].upper()}"
         text += end_symbol
-        if measurments != None:
+        if measurments != None and measurments != []:
             text += measurments[i]
         text += f"\n"
     text = text[:-1]
-    text += f"  <{axis}>"
-    return text
+    text += f"  _{axis}_"
+    return "<code>" + text + "</code>"

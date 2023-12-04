@@ -5,5 +5,6 @@ class GameStates(StatesGroup):
     choosing_turn = State()
     choosing_gate = State()
     choosing_axis = State()
+    choosing_row = State()
     wait = State()
     end = State()

@@ -49,3 +49,10 @@ async def Axis():
     builder.adjust(1)
     return builder.as_markup()
 
+async def GateToRow(gate: str):
+    builder = InlineKeyboardBuilder()
+    builder.button(text="Put to 1 row", callback_data=GateToRowCallbackFactory(action=gate, row=0))
+    builder.button(text="Put to 2 row", callback_data=GateToRowCallbackFactory(action=gate, row=1))
+    builder.button(text="Put to 3 row", callback_data=GateToRowCallbackFactory(action=gate, row=2))
+    builder.adjust(1)
+    return builder.as_markup()

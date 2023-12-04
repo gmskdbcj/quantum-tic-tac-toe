@@ -1,3 +1,6 @@
+your_opponent_win="Your opponent win."
+you_win="You win!"
+select_row="Select row to put gate."
 game_canceled="Game canceled."
 opponent_turn="Wait for your opponent's turn..."
 select_lang = "Select language:"
