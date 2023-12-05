@@ -31,8 +31,6 @@ def generate_tic_tac_toe_router(storage):
         state = FSMContext(storage=storage, key=user_storage_key)
         return state
 
-    start_game_state = ["X", [0, 0, 0], [[], [], []], []]
-
     router = Router()
 
     @router.callback_query(StateFilter(None), GameCallbackFactory.filter())
@@ -49,6 +47,7 @@ def generate_tic_tac_toe_router(storage):
                     player_1 = room_f[0]
                     await room.delete(player_1)
             if room_f != None:
+                start_game_state = ["X", [0, 0, 0], [[], [], []], []]
                 await state.update_data(playing_with=player_1)
                 await state.update_data(game_state=start_game_state)
                 player_1_state = await user_state(player_1, callback.message.bot.id)
@@ -61,8 +60,8 @@ def generate_tic_tac_toe_router(storage):
                 )
                 first_turn_player = randint(1, 2)
                 if first_turn_player == 1:
-                    await player_1_state.set_state(GameStates.choosing_turn)
                     await state.set_state(GameStates.wait)
+                    await player_1_state.set_state(GameStates.choosing_turn)
                     await callback.message.bot.send_message(
                         chat_id=player_1,
                         text=string.your_turn,
@@ -73,8 +72,8 @@ def generate_tic_tac_toe_router(storage):
                         text=await graphic(*start_game_state)
                     )
                 else:
-                    await state.set_state(GameStates.choosing_turn)
                     await player_1_state.set_state(GameStates.wait)
+                    await state.set_state(GameStates.choosing_turn)
                     await callback.message.answer(
                         text=string.your_turn,
                         reply_markup=await tic_tac_toe_keyboards.Turn()
@@ -208,18 +207,6 @@ def generate_tic_tac_toe_router(storage):
             )
 
         await callback.answer()
-
-
-    @router.message(Command("test_turn"))
-    async def cmd_test_turn(message: Message, state: FSMContext):
-        await state.set_state(GameStates.choosing_turn)
-        await message.answer(
-            text=string.your_turn,
-            reply_markup=await tic_tac_toe_keyboards.Turn()
-        )
-        await message.answer(
-            text=await graphic(*start_game_state)
-        )
 
 
 

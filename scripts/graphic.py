@@ -36,12 +36,12 @@ async def graphic(axis, basis_state, gates, measurments=None):
             gates[i].append(empty_gate)
 
     for i in range(len(basis_state)):
-        text += f"{basis_state[i]}: "
+        text += f"{basis_state[i].rjust(2)}: "
         for j in range(len(gates[i])):
             text += f"{empty_symbol}{gates[i][j].upper()}"
         text += end_symbol
         if measurments != None and measurments != []:
-            text += measurments[i]
+            text += measurments[i].rjust(2)
         text += f"\n"
     text = text[:-1]
     text += f"  _{axis}_"
