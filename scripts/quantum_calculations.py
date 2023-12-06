@@ -72,6 +72,8 @@ async def quant(axis: str, basis_state, gates, last_result=None):
                     qml.PauliZ(wires=i)
                 elif gate == "H":
                     qml.Hadamard(wires=i)
+                elif gate == "S":
+                    qml.S(wires=i)
                 else:
                     raise TypeError()
         opers = {

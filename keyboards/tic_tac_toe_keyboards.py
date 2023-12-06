@@ -3,7 +3,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from keyboards.tic_tac_toe_keyboards_classes import *
 
 
-async def Gate(Hadamard=True, Pauli_X=True, Pauli_Y=True, Pauli_Z=True):
+async def Gate(Hadamard=True, Pauli_X=True, Pauli_Y=True, Pauli_Z=True, S=True):
     builder = InlineKeyboardBuilder()
     if Hadamard == True:
         builder.button(text="Hadamard", callback_data=GateCallbackFactory(action="hadamard"))
@@ -13,6 +13,8 @@ async def Gate(Hadamard=True, Pauli_X=True, Pauli_Y=True, Pauli_Z=True):
         builder.button(text="Pauli Y", callback_data=GateCallbackFactory(action="pauli_y"))
     if Pauli_Z == True:
         builder.button(text="Pauli Z", callback_data=GateCallbackFactory(action="pauli_z"))
+    if S == True:
+        builder.button(text="S gate (√Z)", callback_data=GateCallbackFactory(action="s_gate"))
     builder.adjust(1)
     return builder.as_markup()
 
