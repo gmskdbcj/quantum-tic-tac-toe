@@ -9,15 +9,53 @@ async def quant(axis: str, basis_state, gates, last_result=None):
 
     dev = qml.device("default.qubit", wires=3, )
 
+    def norm_z(i):
+        i = round(float(i))
+        if i == -1:
+            return "1"
+        elif i == 1:
+            return "0"
+        elif i == 0:
+            return "0"
+
+    def norm_x(i):
+        i = round(float(i))
+        if i == -1:
+            return "-"
+        elif i == 1:
+            return "+"
+        elif i == 0:
+            return "0"
+
+    def norm_y(i):
+        i = round(float(i))
+        if i == 1:
+            return "i"
+        elif i == -1:
+            return "-i"
+        elif i == 0:
+            return "0"
+
+
     @qml.qnode(dev)
-    def my_circuit():
+    def my_circuit(op):
         # State preparation
         for i in range(3):
-            if basis_state[i] == 1:
+            if basis_state[i] == "1":
                 qml.PauliX(wires=i)
-            elif basis_state[i] == -1:
-                qml.PauliZ(wires=i)
-            elif basis_state[i] == 0:
+            elif basis_state[i] == "i":
+                qml.Hadamard(wires=i)
+                qml.S(wires=i)
+            elif basis_state[i] == "-i":
+                qml.PauliX(wires=i)
+                qml.Hadamard(wires=i)
+                qml.S(wires=i)
+            elif basis_state[i] == "+":
+                qml.Hadamard(wires=i)
+            elif basis_state[i] == "-":
+                qml.PauliX(wires=i)
+                qml.Hadamard(wires=i)
+            elif basis_state[i] == "0" or basis_state[i] == 0:
                 pass
             else:
                 raise TypeError()
@@ -36,17 +74,20 @@ async def quant(axis: str, basis_state, gates, last_result=None):
                     qml.Hadamard(wires=i)
                 else:
                     raise TypeError()
+        opers = {
+            "X": qml.PauliX,
+            "Y": qml.PauliY,
+            "Z": qml.PauliZ
+        }
+        return [qml.expval(opers[op](i)) for i in range(3)]
 
-        # Measurment
-        a = axis.upper()
-        if a == "X":
-            return [qml.expval(qml.PauliX(i)) for i in range(3)]
-        elif a == "Y":
-            return [qml.expval(qml.PauliY(i)) for i in range(3)]
-        elif a == "Z":
-            return [qml.expval(qml.PauliZ(i)) for i in range(3)]
-        else:
-            raise TypeError()
-
-    measurment = my_circuit()
-    return [round(float(i)) for i in measurment]
+    # Measurment
+    a = axis.upper()
+    op={
+        "X":norm_x,
+        "Y":norm_y,
+        "Z":norm_z
+    }
+    measurment = my_circuit(a)
+    measurment = [op[a](i) for i in measurment]
+    return measurment

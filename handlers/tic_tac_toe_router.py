@@ -21,7 +21,7 @@ from locales import en as string
 
 def generate_tic_tac_toe_router(storage):
     async def is_win(m):
-        if m == [1, 1, 1] or m == [-1, -1, -1]:
+        if len(set(m)) == 1 and not ("0" in m):
             return True
         else:
             return False

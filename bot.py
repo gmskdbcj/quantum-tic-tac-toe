@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from os import mkdir
 
 from aiogram import Bot, Dispatcher, Router
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -42,6 +43,9 @@ async def main():
 
 
 if __name__ == "__main__":
+    db_path = Path("data_bases/")
+    if not db_path.is_dir():
+        mkdir("data_bases")
     db_path = Path("data_bases/bot_db.db")
     if db_path.is_file():
         db_path.unlink()
