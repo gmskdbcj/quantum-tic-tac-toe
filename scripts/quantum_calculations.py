@@ -7,7 +7,7 @@ async def quant(axis: str, basis_state, gates, last_result=None):
     for i in range(3):
         gates[i] = [await short_gate(j) for j in gates[i]]
 
-    dev = qml.device("default.qubit", wires=3, )
+    dev = qml.device("default.qubit", wires=3, shots=1)
 
     def norm_z(i):
         i = round(float(i))
@@ -15,8 +15,8 @@ async def quant(axis: str, basis_state, gates, last_result=None):
             return "1"
         elif i == 1:
             return "0"
-        elif i == 0:
-            return "0"
+        else:
+            raise TypeError
 
     def norm_x(i):
         i = round(float(i))
@@ -24,8 +24,8 @@ async def quant(axis: str, basis_state, gates, last_result=None):
             return "-"
         elif i == 1:
             return "+"
-        elif i == 0:
-            return "0"
+        else:
+            raise TypeError
 
     def norm_y(i):
         i = round(float(i))
@@ -33,8 +33,8 @@ async def quant(axis: str, basis_state, gates, last_result=None):
             return "i"
         elif i == -1:
             return "-i"
-        elif i == 0:
-            return "0"
+        else:
+            raise TypeError
 
 
     @qml.qnode(dev)
